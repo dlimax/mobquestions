@@ -19,21 +19,25 @@ mongo = PyMongo(app)
 col_users = mongo.db.users
 col_questions = mongo.db.questions
 
-@app.route('/', methods=['GET'])
+@app.route('/v1/users', methods=['GET'])
 def index():
     res = col_users.find({})
-    return json_util.dumps(list(res)), 201
+    return json_util.dumps(list(res)), 200
 
-@app.route('/users', methods=['POST'])
+@app.route('/v1/users', methods=['POST'])
 def create_user():
     data = request.get_json()
     data['password'] = generate_password_hash(data['password'])
-    col_users.insert_one(data)
+    if (col_users.find_one({'username':data['username'] })):
+       return 'Usuario ja Cadastrado...',203
+    else:
+       col_users.insert_one(data)
     return 'usuario ' + data['username'] + ' criado.', 201
 
-@app.route('/users/<username>', methods=['GET'])
+@app.route('/v1/users/<username>', methods=['GET'])
 def get_user(username):
     return username, 200
+
 
 # rota para exemplificar como utilizar obter variaveis
 # de url. teste acessando 
