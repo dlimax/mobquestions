@@ -115,7 +115,6 @@ def update_user_v1():
     username = request.args.get('username')
     print(username)
 
-<<<<<<< HEAD
 # rota para exemplificar como utilizar obter variaveis
 # de url. teste acessando 
 # http://localhost:8088/questions/search?disciplina=BancoDeDados 
@@ -123,7 +122,6 @@ def update_user_v1():
 def search():
     disciplina = request.args.get('disciplina')
     return disciplina, 200
-=======
    ## return 'teste', 200
 
     if not request or 'username' not in data or 'password' not in data:
@@ -136,4 +134,3 @@ def search():
             return 'usuario ' + data['username'] + ' e/ou senha não encontrado.', 403
         else : 
             return 'usuario e senha válidos.', 200
->>>>>>> 0fb1c164f8439c38a8b73d15c5c14cb8a0a28ded
