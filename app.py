@@ -23,6 +23,8 @@ col_questions = mongo.db.questions
 def index():
     res = col_users.find({})
     return json_util.dumps(list(res)), 200
+    
+
 
 @app.route('/v1/users', methods=['POST'])
 def create_user():
