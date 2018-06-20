@@ -52,8 +52,6 @@ def index():
     return json_util.dumps(list(res)), 200
     
 
-
-
 @app.route('/refresh_token', methods=['GET'])
 @jwt_refresh_required
 def refresh_token():    
@@ -76,8 +74,9 @@ def refresh_token():
 def token():    
     return json_util.dumps(g.parsed_token), 200
 
-@app.route('/v1/users', methods=['POST'])
-def create_user_V1():
+# EXERCICIO 00
+@app.route('/v1/users/', methods=['POST'])
+def create_user_v1():
     data = request.get_json()
     data['password'] = generate_password_hash(data['password'])
     usuario_encontrado = col_users.find_one({'username' : data['username']})
@@ -87,6 +86,7 @@ def create_user_V1():
     else : 
         return 'usuario '+ data['username'] + ' já existente.', 203
 
+
 @app.route('/v1/users/<username>', methods=['GET'])
 def get_user_v1(username):
     usuario_encontrado = col_users.find_one({'username' : username})
@@ -94,6 +94,20 @@ def get_user_v1(username):
         return json_util.dumps(usuario_encontrado), 200
     else : 
         return 'usuario '+ username + ' não encontrado', 404
+
+
+@app.route('/v1/users', methods=['PUT'])
+def edit_user_V1():
+    data = request.get_json()
+    usuario_encontrado = col_users.find_one({'username' : data['username']})
+    if not usuario_encontrado:
+     #   col_users.insert_one(data)
+        return 'usuario ' + data['username'] + ' usuario nao encontrado.', 404
+    else:
+        col_users.update_one({"name": "Markin", "phones": ["3333-2222"]})
+
+        return 'usuario '+ data['username'] + ' alterado.', 203
+
 
 @app.route('/v1/authenticate', methods=['POST'])
 def authenticate_user_v1():
